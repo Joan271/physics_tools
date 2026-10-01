@@ -1,6 +1,27 @@
 classdef scienceplot
     methods (Static)
-        function formato(titulo, etiquetaX, etiquetaY)
+        function formato(titulo, etiquetaX, etiquetaY, rot)
+            % Si no se especifican etiquetas, se usan valores por defecto
+            if nargin < 1, titulo = 'Título de la gráfica'; end
+            if nargin < 2, etiquetaX = 'Eje X'; end
+            if nargin < 3, etiquetaY = 'Eje Y'; end
+            if nargin < 4, rot = 90; end
+
+            % Aplicar formato con LaTeX
+            xlabel(etiquetaX, 'FontSize', 16, 'Interpreter', 'latex');
+            ylabel(etiquetaY, 'FontSize', 16, 'Interpreter', 'latex','Rotation', rot);
+            t = title("\fontsize{24}{0}\selectfont " + titulo,'Interpreter', 'latex');
+            t.Units = 'normalized';
+            t.Position(2) = 1.05; 
+            clear t;
+            % Configuración del estilo científico
+            set(gca, 'FontSize', 16,'TickLabelInterpreter','latex'); % Helvetica para compatibilidad con LaTeX
+            set(gca, 'LineWidth', 1.2);
+            set(gca, 'Box', 'on'); % Marco alrededor de la gráfica
+            set(gca, 'TickDir','in', 'TickLength', [0.01 0.01]);
+            set(gca, 'Color', 'w'); % Fondo blanco
+        end
+        function formato3D(titulo, etiquetaX, etiquetaY, etiquetaZ)
             % Si no se especifican etiquetas, se usan valores por defecto
             if nargin < 1, titulo = 'Título de la gráfica'; end
             if nargin < 2, etiquetaX = 'Eje X'; end
@@ -9,23 +30,29 @@ classdef scienceplot
             % Aplicar formato con LaTeX
             xlabel(etiquetaX, 'FontSize', 16, 'Interpreter', 'latex');
             ylabel(etiquetaY, 'FontSize', 16, 'Interpreter', 'latex');
-            title("\fontsize{16}{0}\selectfont " + titulo,'Interpreter', 'latex');
-
+            zlabel(etiquetaZ, 'FontSize', 16, 'Interpreter', 'latex');
+            t = title("\fontsize{20}{0}\selectfont " + titulo,'Interpreter', 'latex');
+            t.Units = 'normalized';
+            t.Position(2) = 1.05; 
+            clear t;
             % Configuración del estilo científico
             set(gca, 'FontSize', 16,'TickLabelInterpreter','latex'); % Helvetica para compatibilidad con LaTeX
             set(gca, 'LineWidth', 1.2);
             set(gca, 'Box', 'on'); % Marco alrededor de la gráfica
-            set(gca, 'TickDir','in', 'TickLength', [0.02 0.02]);
+            %set(gca, 'TickDir','in', 'TickLength', [0.01 0.01 0.01]);
             set(gca, 'Color', 'w'); % Fondo blanco
         end
+
         function leyenda(nombres)
                 legend(nombres,"Location","best",FontSize=16,Interpreter="latex")
         end
-        function ensanchar(dxizq,dxder,dyinf,dysup)
-            myxlim(1) = gca().XLim(1)*dxizq;
-            myxlim(2) = gca().XLim(2)*dxder;
-            myylim(1) = gca().YLim(1)*dyinf;
-            myylim(2) = gca().YLim(2)*dysup;
+        function ensanchar(dxizq,dxder,dyinf,dysup)  
+            DeltaX = gca().XLim(2) - gca().XLim(1);
+            DeltaY = gca().YLim(2) - gca().YLim(1);
+            myxlim(1) = gca().XLim(1) - DeltaX*dxizq;
+            myxlim(2) = gca().XLim(2) + DeltaX*dxder;
+            myylim(1) = gca().YLim(1) - DeltaY*dyinf;
+            myylim(2) = gca().YLim(2) + DeltaY*dysup;
             xlim(myxlim);
             ylim(myylim);
         end

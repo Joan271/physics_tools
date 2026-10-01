@@ -257,6 +257,7 @@
         width=0.8\textwidth
 }
 
+
 \DeclareCaptionStyle{table_1}{
         format=format1,
         justification=centering,
@@ -264,7 +265,6 @@
         name=Tabla,
         width=0.8\textwidth
 }
-
 
 %% ===========================
 %% PAGE LAYOUT
@@ -276,8 +276,8 @@
    /inst, 
    name/.store in=\inst@name, %saves name in \inst@name
    logo/.store in=\inst@logo, %saves path to logo in \inst@logo
-   name/.inicial={}, 
-   logo/.inicial={}  %default values
+   name/.initial={}, 
+   logo/.initial={}  %default values
  } 
 
  % -- Page Layout --% 
@@ -328,6 +328,7 @@
  \AtBeginDocument{ 
   \captionsetup*[figure]{style=\@layout@figurestyle}
   \captionsetup*[table]{style=\@layout@tablestyle}
+  \captionsetup*[sub]{width=0.8\linewidth}  
 }
 \newcommand{\checkkeys}{
   \begin{itemize}
