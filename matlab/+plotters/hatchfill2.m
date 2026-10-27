@@ -287,7 +287,7 @@ function objMarkedClean(hp,~)
 % check: visibility change, hatching area change, & color change
 
 if getappdata(hp,'HatchFill2NoAction')
-   setappdata(A,'HatchFill2NoAction',false);
+   setappdata(hp,'HatchFill2NoAction',false);
    return;
 end
 
@@ -309,7 +309,7 @@ end
 [V,F,FillFcns] = gethgdata(hp);
 if ~isempty(FillFcns) % patch does not exist, must momentarily generate it
    FillFcns{1}();
-   setappdata(A,'HatchFill2PostMarkedClean',FillFcns{2});
+   setappdata(hp,'HatchFill2PostMarkedClean',FillFcns{2});
    return;
 end
 if ~rehatch % if visible already 'on', check for the change in object data
